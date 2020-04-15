@@ -53,3 +53,24 @@ trpB_positions <- trpB %>% #obtención de todas la posiciones de interes del ali
   select(IDS, His83_aln102, Lys84_aln103, Thr107_aln126, Gly108_aln127, Ala109_aln128, Gln111_aln130, His112_aln131, Leu163_aln182, Leu189_aln208, Ile228_aln247, Gly229_aln248, Ser232_aln251, Asn233_aln252, Glu253_aln272, Ala265_aln284, Arg267_aln286, Phe279_aln298, Leu301_aln320, Asp302_aln321, Tyr303_aln322, Ser305_aln324, Glu347_aln366)
 
 write_delim(trpB_positions, "/home/rodrigo/GIT/practicas/trpB_positions.csv", delim= "\t", quote_escape = "none")
+
+#Contrucción de una tabla que indique si hay un número de acceso o no a los genomas de los organismos para trpA
+library(readr)
+Accesion_Number_trpA <- read_csv("/home/rodrigo/GIT/practicas/Accesion_Number_trpA.csv")
+is.na(Accesion_Number_trpA)#Regresa TRUE o FALSE dependiendo si hay NA o no en cada linea
+ifelse(is.na(Accesion_Number_trpA$Accession), "No", "Yes") #Escribe NO si hay NA en una linea y YES si no hay NA en una linea
+
+
+genome_disposition_trpA <- Accesion_Number_trpA %>% 
+  mutate(genome_disposition = ifelse(is.na(Accesion_Number_trpA$Accession), "No", "Yes")) %>%
+  select(Accession, genome_disposition)
+
+write_delim(genome_disposition_trpA, "/home/rodrigo/GIT/practicas/genome_disposition_trpA.csv", delim = "\t", quote_escape = "none")
+
+#Contrucción de una tabla que indique si hay un número de acceso o no a los genomas de los organismos para trpB
+Accesion_Number_trpB <- read_csv("/home/rodrigo/GIT/practicas/Accesion_Number_trpB.csv")
+
+genome_disposition_trpB <- Accesion_Number_trpB %>% 
+  mutate(genome_disposition = ifelse(is.na(Accesion_Number_trpB$Accession), "No", "Yes")) %>%
+  select(Accession, genome_disposition)
+write_delim(genome_disposition_trpB, "/home/rodrigo/GIT/practicas/genome_disposition_trpB.csv", delim = "\t", quote_escape = "none")
